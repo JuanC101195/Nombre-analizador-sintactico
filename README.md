@@ -65,8 +65,8 @@ F  → ( E ) | número | -número
 
 ### Clonar el repositorio
 ```bash
-git clone https://github.com/TU_USUARIO/analizador-sintactico.git
-cd analizador-sintactico
+git clone https://github.com/JuanC101195/Nombre-analizador-sintactico.git
+cd Nombre-analizador-sintactico
 ```
 
 ### Ejecutar el programa
@@ -225,8 +225,8 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 ## 📧 Contacto
 
-**Juan Esteban Cardozo Rivera** - [GitHub](https://github.com/TU_USUARIO)  
-**Juan Sebastián Gómez Usuga** - [GitHub](https://github.com/TU_USUARIO)
+**Juan Esteban Cardozo Rivera** - [GitHub](https://github.com/JuanC101195)  
+**Juan Sebastián Gómez Usuga** - [GitHub](https://github.com/JuanC101195)
 
 ## 🙏 Agradecimientos
 
