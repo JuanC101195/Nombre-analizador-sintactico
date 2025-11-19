@@ -1,47 +1,82 @@
-# Analizador Sintáctico Descendente Recursivo - Calculadora
+# Analizadores Sintácticos - Proyecto Completo
 
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Tests](https://img.shields.io/badge/tests-62%2F62%20passing-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-91%2F91%20passing-brightgreen.svg)
 
-Implementación de un analizador sintáctico descendente recursivo (parser LL(1)) para evaluar expresiones matemáticas con interfaz gráfica.
+Implementación completa de analizadores sintácticos **Descendente (LL)** y **Ascendente (LR)** con interfaces gráficas.
 
 ## 👥 Autores
 
 - **Juan Esteban Cardozo Rivera**
 - **Juan Sebastián Gómez Usuga**
 
-## 📋 Descripción
+## 📋 Descripción General
 
-Este proyecto implementa un compilador simplificado que realiza:
-- **Análisis Léxico**: Tokenización mediante expresiones regulares
-- **Análisis Sintáctico**: Parser descendente recursivo LL(1)
-- **Evaluación Semántica**: Cálculo de expresiones aritméticas
-- **Interfaz Gráfica**: Aplicación completa con Tkinter
+Este repositorio contiene **dos proyectos completos** de análisis sintáctico:
 
-## ✨ Características
+### 🔽 Proyecto 1: Analizador Descendente (Top-Down)
+Implementación de un **parser LL(1)** recursivo descendente para evaluar expresiones matemáticas.
 
-### Operadores Soportados
-- ➕ Suma (`+`)
-- ➖ Resta (`-`)
-- ✖️ Multiplicación (`*`)
-- ➗ División (`/`)
-- 📐 Módulo (`%`)
-- 🔢 Potenciación (`**` o `^`)
-- 🔤 Paréntesis (`()`)
-- ➖ Números negativos
+- **Archivo principal**: `programa.py`
+- **Algoritmo**: Análisis Recursivo Descendente
+- **Tipo**: Top-Down (Raíz → Hojas)
+- **Pruebas**: 62 tests pasando (100%)
 
-### Funcionalidades
+### 🔼 Proyecto 2: Analizador Ascendente (Bottom-Up)
+Implementación de un **parser Shift-Reduce** para reconocer y evaluar expresiones con asignaciones.
+
+- **Archivo principal**: `analizador_ascendente.py`
+- **Algoritmo**: Shift-Reduce (LR)
+- **Tipo**: Bottom-Up (Hojas → Raíz)
+- **Pruebas**: 29 tests pasando (100%)
+- **Características especiales**: Multiplicación implícita, traza detallada
+
+## 🎯 Características por Proyecto
+
+### Analizador Descendente (LL)
 - ✅ Análisis léxico completo
-- ✅ Análisis sintáctico con gramática LL(1)
-- ✅ Evaluación precisa de expresiones
-- ✅ Traza de derivación en tiempo real
-- ✅ Manejo robusto de errores
-- ✅ Historial de cálculos
-- ✅ Exportación de resultados
-- ✅ 10 ejemplos interactivos
+- ✅ Parser recursivo descendente
+- ✅ Evaluación de expresiones matemáticas
+- ✅ Operadores: `+`, `-`, `*`, `/`, `%`, `**`, `^`
+- ✅ Números negativos y decimales
+- ✅ Interfaz gráfica con Tkinter
+- ✅ 62 pruebas unitarias
 
-## 📐 Gramática
+### Analizador Ascendente (LR)
+- ✅ Algoritmo Shift-Reduce
+- ✅ Reconocimiento de asignaciones: `var = expresión`
+- ✅ **Multiplicación implícita**: `7(3)` → `7*(3)`
+- ✅ Traza completa del análisis Shift-Reduce
+- ✅ Operadores: `+`, `-`, `*`, `/`, `()`
+- ✅ Interfaz gráfica con 4 pestañas informativas
+- ✅ 29 pruebas unitarias
+- ✅ Almacenamiento de variables
+
+## 🚀 Inicio Rápido
+
+### Ejecutar Analizador Descendente (LL)
+```bash
+python programa.py
+```
+
+### Ejecutar Analizador Ascendente (Shift-Reduce)
+```bash
+python analizador_ascendente.py
+```
+
+### Ejecutar Todas las Pruebas
+```bash
+# Pruebas del descendente
+python test_programa.py
+
+# Pruebas del ascendente
+python test_analizador_funcional.py
+```
+
+## 📐 Gramáticas Implementadas
+
+### Gramática Descendente (LL)
 
 ```
 E  → T E'
@@ -53,9 +88,21 @@ P' → ** F P' | ^ F P' | ε
 F  → ( E ) | número | -número
 ```
 
-**Tipo**: Gramática Libre de Contexto (GLC)  
-**Parser**: LL(1) - Análisis Descendente Recursivo  
+**Tipo**: Top-Down (LL)  
 **Precedencia**: `()` > `**` > `* / %` > `+ -`
+
+### Gramática Ascendente (LR)
+
+```
+S  → VAR = E | E
+E  → E + T | E - T | T
+T  → T * F | T / F | F
+F  → ( E ) | número | VAR
+```
+
+**Tipo**: Bottom-Up (Shift-Reduce)  
+**Característica especial**: Permite recursión por izquierda  
+**Precedencia**: `()` > `* /` > `+ -`
 
 ## 🚀 Instalación
 
@@ -76,103 +123,116 @@ python programa.py
 
 ## 🧪 Pruebas
 
-El proyecto incluye una suite completa de 62 pruebas automatizadas.
-
-### Ejecutar todas las pruebas
+### Analizador Descendente
 ```bash
-# Suite completa (44 tests unitarios)
-python test_programa.py
-
-# Pruebas rápidas (8 tests)
-python prueba_rapida.py
-
-# Pruebas de errores (10 tests)
-python prueba_errores.py
+python test_programa.py        # 44 tests
+python prueba_rapida.py        # 8 tests
+python prueba_errores.py       # 10 tests
 ```
 
-### Resultados
+**Resultados**: ✅ 62/62 pruebas pasando (100%)
+
+### Analizador Ascendente
+```bash
+python test_analizador_funcional.py    # 29 tests
 ```
-✅ 62 pruebas ejecutadas
-✅ 62 exitosas (100%)
+
+**Resultados**: ✅ 29/29 pruebas pasando (100%)
+
+### Total del Proyecto
+```
+✅ 91 pruebas ejecutadas
+✅ 91 exitosas (100%)
 ❌ 0 fallidas (0%)
 ```
 
-## 📖 Uso
+## 📖 Ejemplos de Uso
 
-### Interfaz Gráfica
-
-1. **Ingresar expresión**: Escribe la expresión en el campo de entrada
-2. **Analizar**: Presiona Enter o el botón "Analizar"
-3. **Ver resultados**: Navega por las pestañas para ver:
-   - 📊 Resultado de la evaluación
-   - 🔤 Tokens identificados
-   - 🌳 Traza de derivación
-   - 📐 Gramática utilizada
-
-### Ejemplos de Uso
+### Analizador Descendente
 
 ```python
 # Operaciones básicas
 2 + 3           → 5.0
 5 * 4           → 20.0
-10 / 2          → 5.0
-10 % 3          → 1.0
 2 ** 3          → 8.0
 
-# Precedencia de operadores
-2 + 3 * 4       → 14.0  (no 20)
-2 * 3 ** 2      → 18.0  (no 36)
-
-# Paréntesis
+# Precedencia
+2 + 3 * 4       → 14.0
 (2 + 3) * 4     → 20.0
-((2+3)*(4-1))/2 → 7.5
 
-# Números decimales y negativos
-3.5 + 2.5       → 6.0
+# Números negativos
 -5 + 3          → -2.0
--(5 + 3)        → -8.0
+```
 
-# Expresiones complejas
-2 ** 3 + 10 % 3 * 2              → 10.0
-(2 + 3) * 4 - 10 / 2 + 3 ** 2   → 24.0
+### Analizador Ascendente
+
+```python
+# Asignaciones
+var = 5 + 7                    → var = 12
+
+# Ejemplo del enunciado
+var = 5 + 7(3 + 3/4)          → var = 31.25
+
+# Multiplicación implícita
+x = 2(3 + 4)                   → x = 14
+a = 7(3)                       → a = 21
+b = (2 + 3)(4 + 5)            → b = 45
+
+# Variables en expresiones
+x = 5
+y = 3
+result = x + y * 2             → result = 11
 ```
 
 ## 🎯 Casos de Prueba
 
-### ✅ Pruebas Exitosas
-- Operaciones básicas (7 tests)
-- Precedencia de operadores (4 tests)
-- Paréntesis y anidamiento (5 tests)
-- Números decimales (4 tests)
-- Números negativos (4 tests)
-- Expresiones complejas (4 tests)
-- Tokenización (3 tests)
-- Casos extremos (5 tests)
+### Analizador Descendente (62 tests)
+- ✅ Operaciones básicas (7 tests)
+- ✅ Precedencia de operadores (4 tests)
+- ✅ Paréntesis y anidamiento (5 tests)
+- ✅ Números decimales (4 tests)
+- ✅ Números negativos (4 tests)
+- ✅ Expresiones complejas (4 tests)
+- ✅ Tokenización (3 tests)
+- ✅ Casos extremos (5 tests)
+- ✅ Detección de errores (10 tests)
 
-### ❌ Detección de Errores
-- División por cero
-- Módulo por cero
-- Caracteres inválidos
-- Paréntesis desbalanceados
-- Sintaxis incorrecta
-- Expresiones incompletas
+### Analizador Ascendente (29 tests)
+- ✅ Tokenización (5 tests)
+- ✅ Reconocimiento sintáctico (5 tests)
+- ✅ Evaluación de expresiones (9 tests)
+- ✅ Precedencia de operadores (3 tests)
+- ✅ Manejo de variables (3 tests)
+- ✅ Traza Shift-Reduce (4 tests)
 
 ## 📁 Estructura del Proyecto
 
 ```
 Lab2/
-├── programa.py                 # Programa principal con interfaz gráfica
-├── test_programa.py           # Suite completa de 44 pruebas
-├── prueba_rapida.py          # 8 pruebas rápidas
-├── prueba_errores.py         # 10 pruebas de errores
-├── README.md                  # Este archivo
-├── LICENSE                    # Licencia MIT
-├── .gitignore                # Archivos ignorados por Git
-└── docs/
-    ├── VALIDACION_COMPLETA.md    # Resumen de validación
-    ├── RESULTADOS_PRUEBAS.md     # Resultados detallados
-    ├── GUIA_USO.md               # Guía completa de uso
-    └── RESUMEN_FINAL.txt         # Resumen ejecutivo
+├── 📊 ANALIZADOR DESCENDENTE (LL)
+│   ├── programa.py                    # Programa principal
+│   ├── test_programa.py              # 44 pruebas unitarias
+│   ├── prueba_rapida.py             # 8 pruebas rápidas
+│   └── prueba_errores.py            # 10 pruebas de errores
+│
+├── 📈 ANALIZADOR ASCENDENTE (LR)
+│   ├── analizador_ascendente.py     # Programa principal
+│   ├── test_analizador_funcional.py # 29 pruebas unitarias
+│   └── debug_ascendente.py          # Script de depuración
+│
+├── 📚 DOCUMENTACIÓN
+│   ├── README.md                     # Este archivo
+│   ├── README_ASCENDENTE.md         # Documentación ascendente
+│   ├── GUIA_USO.md                  # Guía de uso
+│   ├── RESUMEN_PROYECTO.md          # Resumen ejecutivo
+│   ├── COMPARACION_PROYECTOS.md     # Comparativa LL vs LR
+│   ├── INDICE_ARCHIVOS.md           # Índice completo
+│   └── LICENSE                       # Licencia MIT
+│
+└── 📂 docs/
+    ├── VALIDACION_COMPLETA.md       # Validación descendente
+    ├── RESULTADOS_PRUEBAS.md        # Resultados detallados
+    └── GUIA_USO.md                  # Manual de usuario
 ```
 
 ## 🛠️ Tecnologías
@@ -182,32 +242,69 @@ Lab2/
 - **Testing**: unittest
 - **Regex**: re (expresiones regulares)
 
+## 📊 Comparación de Algoritmos
+
+| Característica | Descendente (LL) | Ascendente (LR) |
+|---------------|------------------|-----------------|
+| **Construcción** | Raíz → Hojas | Hojas → Raíz |
+| **Algoritmo** | Recursivo | Shift-Reduce |
+| **Gramáticas** | LL(1) | LR (más general) |
+| **Recursión izq.** | ❌ No | ✅ Sí |
+| **Implementación** | Más simple | Más compleja |
+| **Detección errores** | Temprana | Más tardía |
+| **Potencia** | Media | Alta |
+
+Para más detalles, ver [COMPARACION_PROYECTOS.md](COMPARACION_PROYECTOS.md)
+
 ## 📊 Rendimiento
 
-- **Tiempo de análisis**: < 0.001 segundos por expresión
-- **Suite de pruebas**: 0.020 segundos (62 tests)
-- **Uso de memoria**: Mínimo
-- **Estabilidad**: 100% de pruebas exitosas
+### Analizador Descendente
+- **Tiempo de análisis**: < 0.001s por expresión
+- **Suite de pruebas**: 0.020s (62 tests)
+
+### Analizador Ascendente
+- **Tiempo de análisis**: < 0.001s por expresión
+- **Suite de pruebas**: 0.012s (29 tests)
+- **Traza generada**: 15-30 pasos por expresión
 
 ## 🎓 Contexto Académico
 
-Este proyecto fue desarrollado como parte del laboratorio de **Análisis Sintáctico** en el curso de Compiladores/Lenguajes de Programación. Cumple con todos los requisitos:
+Este proyecto fue desarrollado como parte del laboratorio de **Análisis Sintáctico** en el curso de Compiladores. Incluye **dos implementaciones completas**:
 
-- ✅ Analizador sintáctico implementado
+### ✅ Analizador Descendente (LL)
+- ✅ Parser recursivo descendente
+- ✅ Gramática LL(1)
 - ✅ Tokens reconocidos correctamente
-- ✅ Resultados de operaciones presentados
-- ✅ Errores de sintaxis indicados
-- ✅ Implementado en Python
+- ✅ Evaluación de operaciones
+- ✅ Detección de errores
 - ✅ Modo gráfico funcional
 
-## 📄 Documentación
+### ✅ Analizador Ascendente (LR)
+- ✅ Algoritmo Shift-Reduce implementado
+- ✅ Reconocimiento de asignaciones: `var = expresión`
+- ✅ **Ejemplo del enunciado funcional**: `var = 5 + 7(3 + 3/4) = 31.25`
+- ✅ Multiplicación implícita automática
+- ✅ Traza completa del análisis
+- ✅ Modo gráfico con 4 pestañas
+- ✅ Almacenamiento de variables
 
-La documentación completa está disponible en la carpeta `docs/`:
+## 📄 Documentación Completa
 
-- **VALIDACION_COMPLETA.md**: Resumen ejecutivo del proyecto
-- **RESULTADOS_PRUEBAS.md**: Documentación detallada de las 62 pruebas
-- **GUIA_USO.md**: Manual completo de usuario
-- **RESUMEN_FINAL.txt**: Vista general del proyecto
+### Documentación General
+- **README.md**: Este archivo (visión general de ambos proyectos)
+- **LICENSE**: Licencia MIT del proyecto
+
+### Documentación Descendente
+- **docs/VALIDACION_COMPLETA.md**: Resumen ejecutivo
+- **docs/RESULTADOS_PRUEBAS.md**: Documentación detallada de 62 pruebas
+- **docs/GUIA_USO.md**: Manual completo de usuario
+
+### Documentación Ascendente
+- **README_ASCENDENTE.md**: Documentación técnica completa
+- **GUIA_USO.md**: Guía rápida de uso
+- **RESUMEN_PROYECTO.md**: Resumen ejecutivo del proyecto
+- **COMPARACION_PROYECTOS.md**: Análisis comparativo LL vs LR
+- **INDICE_ARCHIVOS.md**: Índice completo de archivos
 
 ## 🤝 Contribuciones
 
@@ -236,7 +333,12 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 ---
 
-**Estado del Proyecto**: ✅ Completo y Validado  
-**Última Actualización**: 12 de noviembre de 2025
+**Estado del Proyecto**: ✅ Completo y Validado (Ambos Analizadores)  
+**Última Actualización**: 19 de noviembre de 2025
+
+### 🎯 Proyectos Incluidos
+- ✅ **Analizador Descendente (LL)**: 656 líneas, 62 tests
+- ✅ **Analizador Ascendente (LR)**: 711 líneas, 29 tests
+- ✅ **Total**: 2,494 líneas de código y documentación
 
 ⭐ Si te gusta este proyecto, no olvides darle una estrella!
