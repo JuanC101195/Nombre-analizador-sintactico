@@ -253,6 +253,8 @@ class InterfazMaquinaTuring:
                   command=self.ejecutar_operacion, width=15).pack(side=tk.LEFT, padx=3)
         ttk.Button(botones_frame, text="🗑️ Limpiar",
                   command=self.limpiar, width=15).pack(side=tk.LEFT, padx=3)
+        ttk.Button(botones_frame, text="📚 Ejemplos",
+                  command=self.mostrar_ejemplos, width=15).pack(side=tk.LEFT, padx=3)
         
         # Notebook
         self.notebook = ttk.Notebook(main_frame)
