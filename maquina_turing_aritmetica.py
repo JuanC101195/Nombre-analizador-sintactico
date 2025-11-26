@@ -250,7 +250,7 @@ class InterfazMaquinaTuring:
         botones_frame.pack(pady=(0, 10))
         
         ttk.Button(botones_frame, text="▶️ Calcular",
-                  command=self.procesar_operacion, width=15).pack(side=tk.LEFT, padx=3)
+                  command=self.ejecutar_operacion, width=15).pack(side=tk.LEFT, padx=3)
         ttk.Button(botones_frame, text="🗑️ Limpiar",
                   command=self.limpiar, width=15).pack(side=tk.LEFT, padx=3)
         
