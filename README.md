@@ -1,10 +1,10 @@
-# Analizadores Sintácticos - Proyecto Completo
+# 🎓 Teoría de la Computación - Proyectos Completos
 
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Tests](https://img.shields.io/badge/tests-91%2F91%20passing-brightgreen.svg)
 
-Implementación completa de analizadores sintácticos **Descendente (LL)** y **Ascendente (LR)** con interfaces gráficas.
+Implementación completa de **Analizadores Sintácticos** y **Máquinas de Turing** con interfaces gráficas interactivas.
 
 ## 👥 Autores
 
@@ -13,7 +13,11 @@ Implementación completa de analizadores sintácticos **Descendente (LL)** y **A
 
 ## 📋 Descripción General
 
-Este repositorio contiene **dos proyectos completos** de análisis sintáctico:
+Este repositorio contiene **CUATRO proyectos completos** de teoría de la computación:
+
+### 📊 PARTE 1: Analizadores Sintácticos
+
+Implementaciones de parsers con dos enfoques diferentes:
 
 ### 🔽 Proyecto 1: Analizador Descendente (Top-Down)
 Implementación de un **parser LL(1)** recursivo descendente para evaluar expresiones matemáticas.
@@ -53,19 +57,43 @@ Implementación de un **parser Shift-Reduce** para reconocer y evaluar expresion
 - ✅ 29 pruebas unitarias
 - ✅ Almacenamiento de variables
 
+### 🎰 PARTE 2: Máquinas de Turing
+
+Implementaciones de simuladores de Máquinas de Turing:
+
+#### 🔢 Programa 3: Operaciones Aritméticas
+Máquina de Turing para cálculos en representación unaria.
+
+- **Archivo principal**: `maquina_turing_aritmetica.py`
+- **Operaciones**: Suma y multiplicación unaria
+- **Ejemplos**: `111+11 = 11111` (3+2=5), `11*111 = 111111` (2×3=6)
+- **Características**: Visualización de cinta y cabezal paso a paso
+
+#### 🔤 Programa 4: Reconocimiento de Lenguajes
+Máquina de Turing para verificar lenguajes formales.
+
+- **Archivo principal**: `maquina_turing_lenguajes.py`
+- **Lenguajes**:
+  - L = {a^n b^n c^n}: Igual número de a's, b's y c's (Tipo 1)
+  - Palíndromos: Cadenas simétricas sobre {a, b}
+  - L = {a^n b^2n}: Doble de b's que a's
+- **Características**: 3 algoritmos de reconocimiento diferentes
+
 ## 🚀 Inicio Rápido
 
-### Ejecutar Analizador Descendente (LL)
+### 📊 Analizadores Sintácticos
+
+#### Ejecutar Analizador Descendente (LL)
 ```bash
 python programa.py
 ```
 
-### Ejecutar Analizador Ascendente (Shift-Reduce)
+#### Ejecutar Analizador Ascendente (Shift-Reduce)
 ```bash
 python analizador_ascendente.py
 ```
 
-### Ejecutar Todas las Pruebas
+#### Ejecutar Pruebas de Analizadores
 ```bash
 # Pruebas del descendente
 python test_programa.py
@@ -74,9 +102,23 @@ python test_programa.py
 python test_analizador_funcional.py
 ```
 
-## 📐 Gramáticas Implementadas
+### 🎰 Máquinas de Turing
 
-### Gramática Descendente (LL)
+#### Ejecutar Máquina de Turing - Aritmética
+```bash
+python maquina_turing_aritmetica.py
+```
+
+#### Ejecutar Máquina de Turing - Lenguajes
+```bash
+python maquina_turing_lenguajes.py
+```
+
+## 📐 Especificaciones Formales
+
+### 📊 Analizadores Sintácticos
+
+#### Gramática Descendente (LL)
 
 ```
 E  → T E'
@@ -91,7 +133,7 @@ F  → ( E ) | número | -número
 **Tipo**: Top-Down (LL)  
 **Precedencia**: `()` > `**` > `* / %` > `+ -`
 
-### Gramática Ascendente (LR)
+#### Gramática Ascendente (LR)
 
 ```
 S  → VAR = E | E
@@ -103,6 +145,36 @@ F  → ( E ) | número | VAR
 **Tipo**: Bottom-Up (Shift-Reduce)  
 **Característica especial**: Permite recursión por izquierda  
 **Precedencia**: `()` > `* /` > `+ -`
+
+### 🎰 Máquinas de Turing
+
+#### Definición Formal
+
+**M = (Q, Σ, Γ, δ, q₀, B, F)**
+
+Donde:
+- **Q:** Conjunto finito de estados
+- **Σ:** Alfabeto de entrada
+- **Γ:** Alfabeto de la cinta (Σ ⊆ Γ)
+- **δ:** Función de transición Q × Γ → Q × Γ × {L, R, -}
+- **q₀:** Estado inicial (q₀ ∈ Q)
+- **B:** Símbolo blanco (B ∈ Γ - Σ)
+- **F:** Conjunto de estados finales (F ⊆ Q)
+
+#### Lenguajes Formales Implementados
+
+1. **L = {a^n b^n c^n | n ≥ 1}**
+   - **Lenguaje Tipo 1** (sensible al contexto, NO libre de contexto)
+   - Gramática CSG: `S → aSBC | aBC; CB → BC; aB → ab; bB → bb; bC → bc; cC → cc`
+   - Ejemplos: `abc`, `aabbcc`, `aaabbbccc`
+
+2. **L = {w | w = w^R, w ∈ {a,b}*}** (Palíndromos)
+   - Gramática: `S → aSa | bSb | a | b | ε`
+   - Ejemplos: `a`, `aba`, `abba`, `aabbaa`
+
+3. **L = {a^n b^2n | n ≥ 1}**
+   - Gramática: `S → aSbb | abb`
+   - Ejemplos: `abb`, `aabbbb`, `aaabbbbbb`
 
 ## 🚀 Instalación
 
@@ -269,17 +341,20 @@ Para más detalles, ver [COMPARACION_PROYECTOS.md](COMPARACION_PROYECTOS.md)
 
 ## 🎓 Contexto Académico
 
-Este proyecto fue desarrollado como parte del laboratorio de **Análisis Sintáctico** en el curso de Compiladores. Incluye **dos implementaciones completas**:
+Este proyecto fue desarrollado como parte del curso de **Teoría de la Computación**. Incluye **cuatro implementaciones completas**:
 
-### ✅ Analizador Descendente (LL)
+### ✅ PARTE 1: Analizadores Sintácticos
+
+#### Analizador Descendente (LL)
 - ✅ Parser recursivo descendente
 - ✅ Gramática LL(1)
 - ✅ Tokens reconocidos correctamente
 - ✅ Evaluación de operaciones
 - ✅ Detección de errores
 - ✅ Modo gráfico funcional
+- ✅ 62 tests (100%)
 
-### ✅ Analizador Ascendente (LR)
+#### Analizador Ascendente (LR)
 - ✅ Algoritmo Shift-Reduce implementado
 - ✅ Reconocimiento de asignaciones: `var = expresión`
 - ✅ **Ejemplo del enunciado funcional**: `var = 5 + 7(3 + 3/4) = 31.25`
@@ -287,24 +362,49 @@ Este proyecto fue desarrollado como parte del laboratorio de **Análisis Sintác
 - ✅ Traza completa del análisis
 - ✅ Modo gráfico con 4 pestañas
 - ✅ Almacenamiento de variables
+- ✅ 29 tests (100%)
+
+### ✅ PARTE 2: Máquinas de Turing
+
+#### Máquina de Turing - Aritmética
+- ✅ Operaciones en representación unaria
+- ✅ Suma: `111+11 → 11111` (3+2=5)
+- ✅ Multiplicación: `11*111 → 111111` (2×3=6)
+- ✅ Visualización de cinta y cabezal
+- ✅ Traza paso a paso
+- ✅ 8 ejemplos predefinidos
+
+#### Máquina de Turing - Lenguajes
+- ✅ Reconocimiento de L = {a^n b^n c^n} (Tipo 1)
+- ✅ Verificación de palíndromos
+- ✅ Reconocimiento de L = {a^n b^2n}
+- ✅ Tablas de transiciones completas
+- ✅ 13 ejemplos predefinidos
+- ✅ Teoría integrada en GUI
 
 ## 📄 Documentación Completa
 
 ### Documentación General
-- **README.md**: Este archivo (visión general de ambos proyectos)
+- **README.md**: Este archivo (visión general de todos los proyectos)
 - **LICENSE**: Licencia MIT del proyecto
 
-### Documentación Descendente
-- **docs/VALIDACION_COMPLETA.md**: Resumen ejecutivo
+### Documentación Analizadores Sintácticos
+- **docs/VALIDACION_COMPLETA.md**: Resumen ejecutivo descendente
 - **docs/RESULTADOS_PRUEBAS.md**: Documentación detallada de 62 pruebas
 - **docs/GUIA_USO.md**: Manual completo de usuario
-
-### Documentación Ascendente
-- **README_ASCENDENTE.md**: Documentación técnica completa
-- **GUIA_USO.md**: Guía rápida de uso
-- **RESUMEN_PROYECTO.md**: Resumen ejecutivo del proyecto
+- **README_ASCENDENTE.md**: Documentación técnica ascendente
 - **COMPARACION_PROYECTOS.md**: Análisis comparativo LL vs LR
 - **INDICE_ARCHIVOS.md**: Índice completo de archivos
+
+### Documentación Máquinas de Turing
+- **README_TURING.md**: Documentación completa de ambas MT
+  - Fundamentos teóricos
+  - Definición formal de Máquina de Turing
+  - Tesis de Church-Turing
+  - Jerarquía de Chomsky
+  - Ejemplos de uso detallados
+  - Casos de prueba completos
+  - Comparación con ejemplos de clase
 
 ## 🤝 Contribuciones
 
@@ -333,12 +433,21 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 ---
 
-**Estado del Proyecto**: ✅ Completo y Validado (Ambos Analizadores)  
-**Última Actualización**: 19 de noviembre de 2025
+**Estado del Proyecto**: ✅ Completo y Validado (4 Programas)  
+**Última Actualización**: 26 de noviembre de 2025
 
 ### 🎯 Proyectos Incluidos
 - ✅ **Analizador Descendente (LL)**: 656 líneas, 62 tests
 - ✅ **Analizador Ascendente (LR)**: 711 líneas, 29 tests
-- ✅ **Total**: 2,494 líneas de código y documentación
+- ✅ **Máquina de Turing - Aritmética**: 580 líneas, 8 ejemplos
+- ✅ **Máquina de Turing - Lenguajes**: 650 líneas, 13 ejemplos
+- ✅ **Total**: ~3,900 líneas de código + documentación
+
+### 📊 Estadísticas
+- 4 programas completos con GUI
+- 91 tests automatizados (analizadores)
+- 21 ejemplos interactivos (máquinas de turing)
+- 5 lenguajes formales implementados
+- 10+ archivos de documentación
 
 ⭐ Si te gusta este proyecto, no olvides darle una estrella!
