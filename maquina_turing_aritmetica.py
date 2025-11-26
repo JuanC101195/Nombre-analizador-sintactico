@@ -301,8 +301,8 @@ class InterfazMaquinaTuring:
     def ejecutar_operacion(self):
         """Ejecuta la operación seleccionada"""
         try:
-            a = int(self.num_a.get())
-            b = int(self.num_b.get())
+            a = int(self.entrada_a.get())
+            b = int(self.entrada_b.get())
             
             if a <= 0 or b <= 0:
                 messagebox.showerror("Error", "Los números deben ser positivos")
@@ -369,31 +369,56 @@ class InterfazMaquinaTuring:
     
     def mostrar_cinta_visual(self, historial):
         """Muestra una visualización de la cinta en cada paso"""
-        self.cinta_texto.insert(tk.END, "VISUALIZACIÓN DE LA CINTA\n")
-        self.cinta_texto.insert(tk.END, "=" * 80 + "\n\n")
+        # Configurar tags para colores
+        self.cinta_texto.tag_configure("header", foreground="#2C5F7C", font=("Arial", 10, "bold"))
+        self.cinta_texto.tag_configure("paso", foreground="#1E4D6B", font=("Arial", 9, "bold"))
+        self.cinta_texto.tag_configure("cabezal", foreground="#D32F2F", font=("Consolas", 10, "bold"))
+        self.cinta_texto.tag_configure("celda_activa", background="#FFF9C4", foreground="#000000")
+        self.cinta_texto.tag_configure("celda_normal", foreground="#424242")
         
-        for i, paso in enumerate(historial[:10]):  # Mostrar primeros 10 pasos
-            self.cinta_texto.insert(tk.END, f"Paso {paso['paso']} - Estado: {paso['estado']}\n")
+        self.cinta_texto.insert(tk.END, "🎬 VISUALIZACIÓN DE LA CINTA\n", "header")
+        self.cinta_texto.insert(tk.END, "═" * 80 + "\n\n", "header")
+        
+        # Mostrar más pasos pero de forma compacta
+        pasos_a_mostrar = min(15, len(historial))
+        for i, paso in enumerate(historial[:pasos_a_mostrar]):
+            self.cinta_texto.insert(tk.END, f"➤ Paso {paso['paso']} ", "paso")
+            self.cinta_texto.insert(tk.END, f"| Estado: {paso['estado']} ", "paso")
+            self.cinta_texto.insert(tk.END, f"| {paso['accion']}\n", "celda_normal")
             
             # Dibujar cinta
             cinta = paso['cinta']
             pos = paso['posicion']
             
-            # Celdas
-            self.cinta_texto.insert(tk.END, "┌" + "───┬" * len(cinta) + "───┐\n")
-            self.cinta_texto.insert(tk.END, "│")
-            for j, simbolo in enumerate(cinta):
-                self.cinta_texto.insert(tk.END, f" {simbolo} │")
-            self.cinta_texto.insert(tk.END, "\n")
-            self.cinta_texto.insert(tk.END, "└" + "───┴" * len(cinta) + "───┘\n")
+            # Limitar longitud de cinta visible para mejor visualización
+            inicio = max(0, pos - 10)
+            fin = min(len(cinta), pos + 11)
+            cinta_visible = cinta[inicio:fin]
+            pos_ajustada = pos - inicio
             
-            # Cabezal
-            cabezal_pos = " " * (4 * pos + 2) + "↑"
-            self.cinta_texto.insert(tk.END, cabezal_pos + "\n")
-            self.cinta_texto.insert(tk.END, " " * (4 * pos) + "(cabezal)\n\n")
+            # Celdas superior
+            self.cinta_texto.insert(tk.END, "  ┌" + "────┬" * (len(cinta_visible) - 1) + "────┐\n", "celda_normal")
             
-            if i < len(historial) - 1:
-                self.cinta_texto.insert(tk.END, "\n")
+            # Contenido de celdas
+            self.cinta_texto.insert(tk.END, "  │", "celda_normal")
+            for j, simbolo in enumerate(cinta_visible):
+                if j == pos_ajustada:
+                    self.cinta_texto.insert(tk.END, f" {simbolo}  ", "celda_activa")
+                    self.cinta_texto.insert(tk.END, "│", "celda_activa")
+                else:
+                    self.cinta_texto.insert(tk.END, f" {simbolo}  │", "celda_normal")
+            self.cinta_texto.insert(tk.END, "\n", "celda_normal")
+            
+            # Celdas inferior
+            self.cinta_texto.insert(tk.END, "  └" + "────┴" * (len(cinta_visible) - 1) + "────┘\n", "celda_normal")
+            
+            # Cabezal con mejor visualización
+            espacios = 3 + (5 * pos_ajustada)
+            self.cinta_texto.insert(tk.END, " " * espacios + "▼\n", "cabezal")
+            self.cinta_texto.insert(tk.END, " " * (espacios - 2) + "CABEZAL\n\n", "cabezal")
+        
+        if len(historial) > pasos_a_mostrar:
+            self.cinta_texto.insert(tk.END, f"\n... ({len(historial) - pasos_a_mostrar} pasos adicionales)\n", "celda_normal")
     
     def mostrar_teoria(self, frame):
         """Muestra información teórica sobre Máquinas de Turing"""
@@ -524,10 +549,10 @@ CARACTERÍSTICAS:
             
             def hacer_lambda(t=tipo, num_a=a, num_b=b, w=ejemplos_window):
                 self.tipo_operacion.set(t)
-                self.num_a.delete(0, tk.END)
-                self.num_a.insert(0, str(num_a))
-                self.num_b.delete(0, tk.END)
-                self.num_b.insert(0, str(num_b))
+                self.entrada_a.delete(0, tk.END)
+                self.entrada_a.insert(0, str(num_a))
+                self.entrada_b.delete(0, tk.END)
+                self.entrada_b.insert(0, str(num_b))
                 w.destroy()
                 self.ejecutar_operacion()
             
@@ -538,8 +563,8 @@ CARACTERÍSTICAS:
     
     def limpiar(self):
         """Limpia los campos de entrada"""
-        self.num_a.delete(0, tk.END)
-        self.num_b.delete(0, tk.END)
+        self.entrada_a.delete(0, tk.END)
+        self.entrada_b.delete(0, tk.END)
         self.limpiar_resultados()
     
     def limpiar_resultados(self):

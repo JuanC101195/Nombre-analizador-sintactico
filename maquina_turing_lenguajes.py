@@ -495,23 +495,74 @@ USO:
     
     def mostrar_traza(self, historial):
         """Muestra la traza de ejecución"""
-        self.texto_transiciones.insert(tk.END, "TRAZA DE EJECUCIÓN\n")
-        self.texto_transiciones.insert(tk.END, "=" * 100 + "\n\n")
+        # Configurar tags para colores
+        self.texto_transiciones.tag_configure("header", foreground="#2C5F7C", font=("Arial", 10, "bold"))
+        self.texto_transiciones.tag_configure("paso", foreground="#1E4D6B", font=("Consolas", 9))
+        self.texto_transiciones.tag_configure("estado", foreground="#6A1B9A", font=("Consolas", 9, "bold"))
+        self.texto_transiciones.tag_configure("cinta", foreground="#D32F2F", font=("Consolas", 9))
+        self.texto_transiciones.tag_configure("normal", foreground="#424242", font=("Consolas", 9))
         
-        self.texto_transiciones.insert(tk.END, f"{'Paso':<6} {'Estado':<10} {'Cinta':<30} {'Pos':<5} {'Lee':<6} {'Acción':<40}\n")
-        self.texto_transiciones.insert(tk.END, "─" * 100 + "\n")
+        self.texto_transiciones.insert(tk.END, "🎬 TRAZA DE EJECUCIÓN\n", "header")
+        self.texto_transiciones.insert(tk.END, "═" * 100 + "\n\n", "header")
         
-        for paso in historial:
+        # Encabezado de tabla con mejor formato
+        self.texto_transiciones.insert(tk.END, "┌" + "─" * 6, "normal")
+        self.texto_transiciones.insert(tk.END, "┬" + "─" * 12, "normal")
+        self.texto_transiciones.insert(tk.END, "┬" + "─" * 32, "normal")
+        self.texto_transiciones.insert(tk.END, "┬" + "─" * 6, "normal")
+        self.texto_transiciones.insert(tk.END, "┬" + "─" * 8, "normal")
+        self.texto_transiciones.insert(tk.END, "┬" + "─" * 30 + "┐\n", "normal")
+        
+        self.texto_transiciones.insert(tk.END, f"│{'Paso':^6}│{'Estado':^12}│{'Cinta':^32}│{'Pos':^6}│{'Lee':^8}│{'Acción':^30}│\n", "header")
+        
+        self.texto_transiciones.insert(tk.END, "├" + "─" * 6, "normal")
+        self.texto_transiciones.insert(tk.END, "┼" + "─" * 12, "normal")
+        self.texto_transiciones.insert(tk.END, "┼" + "─" * 32, "normal")
+        self.texto_transiciones.insert(tk.END, "┼" + "─" * 6, "normal")
+        self.texto_transiciones.insert(tk.END, "┼" + "─" * 8, "normal")
+        self.texto_transiciones.insert(tk.END, "┼" + "─" * 30 + "┤\n", "normal")
+        
+        # Mostrar cada paso con colores alternados
+        for i, paso in enumerate(historial):
             paso_num = str(paso['paso'])
             estado = paso['estado']
-            cinta = paso['cinta'][:25] + "..." if len(paso['cinta']) > 25 else paso['cinta']
-            pos = str(paso['posicion'])
-            simbolo = paso['simbolo']
-            accion = paso['accion'][:35] + "..." if len(paso['accion']) > 35 else paso['accion']
+            cinta_completa = paso['cinta']
             
-            self.texto_transiciones.insert(tk.END, f"{paso_num:<6} {estado:<10} {cinta:<30} {pos:<5} {simbolo:<6} {accion:<40}\n")
+            # Truncar cinta si es muy larga, mostrando posición del cabezal
+            pos = paso['posicion']
+            if len(cinta_completa) > 30:
+                inicio = max(0, pos - 15)
+                fin = min(len(cinta_completa), pos + 16)
+                cinta = cinta_completa[inicio:fin]
+                if inicio > 0:
+                    cinta = "..." + cinta
+                if fin < len(cinta_completa):
+                    cinta = cinta + "..."
+            else:
+                cinta = cinta_completa
+                
+            simbolo = paso['simbolo']
+            accion = paso['accion']
+            if len(accion) > 28:
+                accion = accion[:25] + "..."
+            
+            tag = "paso" if i % 2 == 0 else "normal"
+            
+            self.texto_transiciones.insert(tk.END, f"│{paso_num:^6}│", tag)
+            self.texto_transiciones.insert(tk.END, f"{estado:^12}│", "estado")
+            self.texto_transiciones.insert(tk.END, f"{cinta:^32}│", "cinta")
+            self.texto_transiciones.insert(tk.END, f"{str(pos):^6}│", tag)
+            self.texto_transiciones.insert(tk.END, f"{simbolo:^8}│", tag)
+            self.texto_transiciones.insert(tk.END, f"{accion:^30}│\n", tag)
         
-        self.texto_transiciones.insert(tk.END, "\n" + "=" * 100 + "\n")
+        self.texto_transiciones.insert(tk.END, "└" + "─" * 6, "normal")
+        self.texto_transiciones.insert(tk.END, "┴" + "─" * 12, "normal")
+        self.texto_transiciones.insert(tk.END, "┴" + "─" * 32, "normal")
+        self.texto_transiciones.insert(tk.END, "┴" + "─" * 6, "normal")
+        self.texto_transiciones.insert(tk.END, "┴" + "─" * 8, "normal")
+        self.texto_transiciones.insert(tk.END, "┴" + "─" * 30 + "┘\n", "normal")
+        
+        self.texto_transiciones.insert(tk.END, f"\n📊 Total de pasos: {len(historial)}\n", "header")
     
     def mostrar_tabla_transiciones(self, tipo):
         """Muestra información sobre las transiciones (eliminada para simplificar)"""
