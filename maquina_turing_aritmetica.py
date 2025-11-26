@@ -187,202 +187,106 @@ class MaquinaTuring:
 
 
 class InterfazMaquinaTuring:
-    """Interfaz gráfica moderna para la Máquina de Turing"""
+    """Interfaz gráfica para la Máquina de Turing"""
     
     def __init__(self, root):
         self.root = root
-        self.root.title("🔢 Máquina de Turing - Operaciones Aritméticas")
-        self.root.geometry("1250x850")
-        
-        # Colores modernos
-        self.bg_main = "#F0F4F8"
-        self.bg_card = "#FFFFFF"
-        self.primary = "#2563EB"  # Azul moderno
-        self.success = "#10B981"  # Verde
-        self.danger = "#EF4444"   # Rojo
-        self.text_dark = "#1F2937"
-        self.text_light = "#6B7280"
-        
-        self.root.configure(bg=self.bg_main)
-        
-        # Configurar estilo
-        self.configurar_estilos()
+        self.root.title("Máquina de Turing - Operaciones Aritméticas")
+        self.root.geometry("1000x700")
         
         self.maquina = MaquinaTuring()
-        
         self.crear_interfaz()
     
-    def configurar_estilos(self):
-        """Configurar estilos personalizados"""
-        style = ttk.Style()
-        style.theme_use('clam')
-        
-        # Estilo para botones
-        style.configure('Primary.TButton',
-                       background=self.primary,
-                       foreground='white',
-                       borderwidth=0,
-                       focuscolor='none',
-                       font=('Segoe UI', 10, 'bold'),
-                       padding=10)
-        
-        style.map('Primary.TButton',
-                 background=[('active', '#1D4ED8')])
-        
-        style.configure('Success.TButton',
-                       background=self.success,
-                       foreground='white',
-                       borderwidth=0,
-                       font=('Segoe UI', 10, 'bold'),
-                       padding=10)
-        
-        # Estilo para frames
-        style.configure('Card.TFrame',
-                       background=self.bg_card,
-                       relief='flat')
-        
-        style.configure('Main.TFrame',
-                       background=self.bg_main)
-    
     def crear_interfaz(self):
-        # Frame principal con scroll
-        canvas = tk.Canvas(self.root, bg=self.bg_main, highlightthickness=0)
-        scrollbar = ttk.Scrollbar(self.root, orient="vertical", command=canvas.yview)
+        # Frame principal simple
+        main_frame = ttk.Frame(self.root, padding="15")
+        main_frame.pack(fill=tk.BOTH, expand=True)
         
-        main_frame = ttk.Frame(canvas, style='Main.TFrame', padding="20")
+        # Título
+        titulo = ttk.Label(main_frame, 
+                          text="Máquina de Turing - Operaciones Aritméticas",
+                          font=("Arial", 16, "bold"))
+        titulo.pack(pady=(0, 5))
         
-        main_frame.bind("<Configure>", 
-                       lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        # Autores
+        autores = ttk.Label(main_frame,
+                           text="👨‍💻 Juan Esteban Cardozo Rivera  •  Juan Sebastián Gómez Usuga",
+                           font=("Arial", 10))
+        autores.pack(pady=(0, 15))
         
-        canvas.create_window((0, 0), window=main_frame, anchor="nw")
-        canvas.configure(yscrollcommand=scrollbar.set)
-        
-        canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
-        
-        # Header con gradiente simulado
-        header_frame = tk.Frame(main_frame, bg=self.primary, height=100)
-        header_frame.grid(row=0, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 20))
-        header_frame.grid_propagate(False)
-        
-        titulo = tk.Label(header_frame, 
-                         text="🔢 MÁQUINA DE TURING",
-                         font=("Segoe UI", 24, "bold"),
-                         bg=self.primary, fg="white")
-        titulo.pack(pady=10)
-        
-        subtitulo = tk.Label(header_frame,
-                            text="Operaciones Aritméticas en Representación Unaria",
-                            font=("Segoe UI", 12),
-                            bg=self.primary, fg="#E0E7FF")
-        subtitulo.pack()
-        
-        autores = tk.Label(header_frame,
-                          text="👨‍💻 Juan Esteban Cardozo Rivera • Juan Sebastián Gómez Usuga",
-                          font=("Segoe UI", 9, "italic"),
-                          bg=self.primary, fg="#DBEAFE")
-        autores.pack(pady=5)
-        
-        # Card de operación
-        operacion_card = ttk.Frame(main_frame, style='Card.TFrame', padding="25")
-        operacion_card.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 20))
-        
-        tk.Label(operacion_card,
-                text="⚙️ Configurar Operación",
-                font=("Segoe UI", 14, "bold"),
-                bg=self.bg_card, fg=self.text_dark).grid(row=0, column=0, columnspan=6, pady=(0, 15), sticky=tk.W)
+        # Frame de configuración
+        config_frame = ttk.LabelFrame(main_frame, text=" Configuración ", padding="12")
+        config_frame.pack(fill=tk.X, pady=(0, 10))
         
         # Tipo de operación
-        tk.Label(operacion_card, text="Operación:", 
-                font=("Segoe UI", 10, "bold"),
-                bg=self.bg_card, fg=self.text_dark).grid(row=1, column=0, sticky=tk.W, padx=(0, 10))
+        ttk.Label(config_frame, text="Operación:", 
+                 font=("Arial", 9, "bold")).grid(row=0, column=0, sticky=tk.W, padx=(0, 8))
         
-        self.tipo_operacion = ttk.Combobox(operacion_card,
+        self.tipo_operacion = ttk.Combobox(config_frame,
                                            values=["Suma", "Multiplicación"],
-                                           state="readonly", width=15,
-                                           font=("Segoe UI", 10))
+                                           state="readonly",
+                                           width=15)
         self.tipo_operacion.set("Suma")
-        self.tipo_operacion.grid(row=1, column=1, padx=5)
+        self.tipo_operacion.grid(row=0, column=1, padx=5)
         
         # Primer número
-        tk.Label(operacion_card, text="Número A:",
-                font=("Segoe UI", 10, "bold"),
-                bg=self.bg_card, fg=self.text_dark).grid(row=1, column=2, sticky=tk.W, padx=(30, 10))
+        ttk.Label(config_frame, text="Número 1:", 
+                 font=("Arial", 9, "bold")).grid(row=0, column=2, sticky=tk.W, padx=(20, 8))
         
-        self.entrada_a = ttk.Entry(operacion_card, width=12, font=("Segoe UI", 11))
+        self.entrada_a = ttk.Entry(config_frame, width=10)
         self.entrada_a.insert(0, "3")
-        self.entrada_a.grid(row=1, column=3, padx=5)
+        self.entrada_a.grid(row=0, column=3, padx=5)
         
         # Segundo número
-        tk.Label(operacion_card, text="Número B:",
-                font=("Segoe UI", 10, "bold"),
-                bg=self.bg_card, fg=self.text_dark).grid(row=1, column=4, sticky=tk.W, padx=(20, 10))
+        ttk.Label(config_frame, text="Número 2:", 
+                 font=("Arial", 9, "bold")).grid(row=0, column=4, sticky=tk.W, padx=(10, 8))
         
-        self.entrada_b = ttk.Entry(operacion_card, width=12, font=("Segoe UI", 11))
+        self.entrada_b = ttk.Entry(config_frame, width=10)
         self.entrada_b.insert(0, "2")
-        self.entrada_b.grid(row=1, column=5, padx=5)
+        self.entrada_b.grid(row=0, column=5, padx=5)
         
-        # Botones de acción
-        botones_frame = ttk.Frame(main_frame, style='Main.TFrame')
-        botones_frame.grid(row=2, column=0, columnspan=3, pady=(0, 20))
+        # Botones
+        botones_frame = ttk.Frame(main_frame)
+        botones_frame.pack(pady=(0, 10))
         
-        ttk.Button(botones_frame, text="▶️  Ejecutar",
-                  command=self.procesar_operacion,
-                  style='Primary.TButton',
-                  width=18).grid(row=0, column=0, padx=8)
+        ttk.Button(botones_frame, text="▶️ Calcular",
+                  command=self.procesar_operacion, width=15).pack(side=tk.LEFT, padx=3)
+        ttk.Button(botones_frame, text="🗑️ Limpiar",
+                  command=self.limpiar, width=15).pack(side=tk.LEFT, padx=3)
         
-        ttk.Button(botones_frame, text="🔄  Limpiar",
-                  command=self.limpiar,
-                  width=18).grid(row=0, column=1, padx=8)
-        
-        ttk.Button(botones_frame, text="📚  Ejemplos",
-                  command=self.mostrar_ejemplos,
-                  width=18).grid(row=0, column=2, padx=8)
-        
-        # Notebook con pestañas
+        # Notebook
         self.notebook = ttk.Notebook(main_frame)
-        self.notebook.grid(row=3, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        self.notebook.pack(fill=tk.BOTH, expand=True)
         
-        main_frame.rowconfigure(3, weight=1)
-        main_frame.columnconfigure(0, weight=1)
-        
-        # Crear pestañas mejoradas
+        # Crear pestañas
         self.crear_pestanas()
     
     def crear_pestanas(self):
-        """Crear pestañas mejoradas con mejor diseño"""
-        
-        # Pestaña 1: Resultado
-        resultado_frame = tk.Frame(self.notebook, bg=self.bg_card, padx=15, pady=15)
-        self.notebook.add(resultado_frame, text="  📊 Resultado  ")
+        # Pestaña: Resultado
+        resultado_frame = ttk.Frame(self.notebook, padding="10")
+        self.notebook.add(resultado_frame, text="📊 Resultado")
         
         self.resultado_texto = scrolledtext.ScrolledText(resultado_frame, 
-                                                         width=100, height=18,
-                                                         font=("Consolas", 10), 
-                                                         wrap=tk.WORD,
-                                                         bg="#FAFAFA",
-                                                         relief='flat',
-                                                         borderwidth=2)
+                                                         height=18,
+                                                         font=("Consolas", 9), 
+                                                         wrap=tk.WORD)
         self.resultado_texto.pack(fill=tk.BOTH, expand=True)
         
-        # Pestaña 2: Traza de Ejecución
-        traza_frame = tk.Frame(self.notebook, bg=self.bg_card, padx=15, pady=15)
-        self.notebook.add(traza_frame, text="  🔄 Traza  ")
+        # Pestaña: Pasos
+        traza_frame = ttk.Frame(self.notebook, padding="10")
+        self.notebook.add(traza_frame, text="📝 Pasos")
         
         self.traza_texto = scrolledtext.ScrolledText(traza_frame, 
-                                                     width=100, height=18,
-                                                     font=("Consolas", 9), 
-                                                     wrap=tk.NONE,
-                                                     bg="#FAFAFA",
-                                                     relief='flat',
-                                                     borderwidth=2)
+                                                     height=18,
+                                                     font=("Consolas", 8), 
+                                                     wrap=tk.NONE)
         self.traza_texto.pack(fill=tk.BOTH, expand=True)
         
-        # Pestaña 3: Visualización de Cinta
-        cinta_frame = tk.Frame(self.notebook, bg=self.bg_card, padx=15, pady=15)
-        self.notebook.add(cinta_frame, text="  📼 Cinta  ")
+        # Pestaña: Cinta
+        cinta_frame = ttk.Frame(self.notebook, padding="10")
+        self.notebook.add(cinta_frame, text="📼 Cinta")
         
-        self.cinta_texto = scrolledtext.ScrolledText(cinta_frame, width=90, height=15,
+        self.cinta_texto = scrolledtext.ScrolledText(cinta_frame, height=18,
                                                      font=("Consolas", 10), wrap=tk.WORD)
         self.cinta_texto.pack(fill=tk.BOTH, expand=True)
         
