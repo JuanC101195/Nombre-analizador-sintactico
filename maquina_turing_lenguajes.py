@@ -300,102 +300,235 @@ class MaquinaTuringLenguajes:
 
 
 class InterfazMTLenguajes:
-    """Interfaz gráfica para Máquina de Turing de lenguajes"""
+    """Interfaz gráfica moderna para Máquina de Turing de lenguajes"""
     
     def __init__(self, root):
         self.root = root
-        self.root.title("Máquina de Turing - Reconocimiento de Lenguajes")
-        self.root.geometry("1100x750")
+        self.root.title("🔤 Máquina de Turing - Reconocimiento de Lenguajes")
+        self.root.geometry("1280x850")
+        
+        # Paleta de colores moderna
+        self.bg_main = "#F8FAFC"
+        self.bg_card = "#FFFFFF"
+        self.primary = "#8B5CF6"  # Violeta
+        self.secondary = "#10B981"  # Verde
+        self.accent = "#F59E0B"  # Naranja
+        self.danger = "#EF4444"  # Rojo
+        self.text_dark = "#1E293B"
+        self.text_light = "#64748B"
+        
+        self.root.configure(bg=self.bg_main)
+        
+        # Configurar estilos modernos
+        self.configurar_estilos()
         
         self.maquina = MaquinaTuringLenguajes()
         
         self.crear_interfaz()
     
+    def configurar_estilos(self):
+        """Configurar estilos personalizados modernos"""
+        style = ttk.Style()
+        style.theme_use('clam')
+        
+        # Botón primario
+        style.configure('Primary.TButton',
+                       background=self.primary,
+                       foreground='white',
+                       borderwidth=0,
+                       focuscolor='none',
+                       font=('Segoe UI', 10, 'bold'),
+                       padding=(15, 10))
+        
+        style.map('Primary.TButton',
+                 background=[('active', '#7C3AED'), ('pressed', '#6D28D9')])
+        
+        # Botón secundario
+        style.configure('Secondary.TButton',
+                       background=self.secondary,
+                       foreground='white',
+                       borderwidth=0,
+                       font=('Segoe UI', 10, 'bold'),
+                       padding=(15, 10))
+        
+        # Botón de acento
+        style.configure('Accent.TButton',
+                       background=self.accent,
+                       foreground='white',
+                       borderwidth=0,
+                       font=('Segoe UI', 10, 'bold'),
+                       padding=(15, 10))
+        
+        # Combobox
+        style.configure('Modern.TCombobox',
+                       fieldbackground='white',
+                       background=self.primary,
+                       font=('Segoe UI', 10))
+        
+        # Frames
+        style.configure('Card.TFrame',
+                       background=self.bg_card)
+        
+        style.configure('Main.TFrame',
+                       background=self.bg_main)
+    
     def crear_interfaz(self):
-        main_frame = ttk.Frame(self.root, padding="15")
-        main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        # Frame principal con padding
+        main_container = tk.Frame(self.root, bg=self.bg_main)
+        main_container.pack(fill=tk.BOTH, expand=True)
         
-        self.root.columnconfigure(0, weight=1)
-        self.root.rowconfigure(0, weight=1)
+        #  Header moderno con gradiente
+        header_frame = tk.Frame(main_container, bg=self.primary, height=120)
+        header_frame.pack(fill=tk.X, padx=0, pady=0)
+        header_frame.pack_propagate(False)
         
-        # Título
-        titulo = ttk.Label(main_frame, text="🔤 Máquina de Turing - Reconocimiento de Lenguajes",
-                          font=("Arial", 16, "bold"), foreground="#8E44AD")
-        titulo.grid(row=0, column=0, columnspan=3, pady=(0, 5))
+        titulo = tk.Label(header_frame,
+                         text="🔤 MÁQUINA DE TURING",
+                         font=("Segoe UI", 26, "bold"),
+                         bg=self.primary, fg="white")
+        titulo.pack(pady=(15, 5))
         
-        # Autores
-        autores = ttk.Label(main_frame, 
-                           text="Juan Esteban Cardozo Rivera • Juan Sebastián Gómez Usuga",
-                           font=("Arial", 9, "italic"), foreground="#7F8C8D")
-        autores.grid(row=1, column=0, columnspan=3, pady=(0, 15))
+        subtitulo = tk.Label(header_frame,
+                            text="Reconocimiento de Lenguajes Formales",
+                            font=("Segoe UI", 13),
+                            bg=self.primary, fg="#E9D5FF")
+        subtitulo.pack()
         
-        # Frame de entrada
-        entrada_frame = ttk.LabelFrame(main_frame, text="Configuración", padding="10")
-        entrada_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
+        autores = tk.Label(header_frame,
+                          text="👨‍💻 Juan Esteban Cardozo Rivera • Juan Sebastián Gómez Usuga",
+                          font=("Segoe UI", 9, "italic"),
+                          bg=self.primary, fg="#DDD6FE")
+        autores.pack(pady=(5, 10))
         
-        # Tipo de lenguaje
-        ttk.Label(entrada_frame, text="Lenguaje:").grid(row=0, column=0, sticky=tk.W, padx=(0, 10))
-        self.tipo_lenguaje = ttk.Combobox(entrada_frame, 
-                                          values=["a^n b^n c^n", "Palíndromo", "a^n b^2n"], 
-                                          state="readonly", width=20)
+        # Contenido principal
+        content_frame = tk.Frame(main_container, bg=self.bg_main, padx=25, pady=20)
+        content_frame.pack(fill=tk.BOTH, expand=True)
+        
+        # Card de configuración
+        config_card = tk.Frame(content_frame, bg=self.bg_card, relief='flat', bd=0)
+        config_card.pack(fill=tk.X, pady=(0, 20))
+        
+        # Agregar sombra simulada
+        shadow_frame = tk.Frame(config_card, bg='#E2E8F0', height=2)
+        shadow_frame.pack(side=tk.BOTTOM, fill=tk.X)
+        
+        config_inner = tk.Frame(config_card, bg=self.bg_card, padx=25, pady=20)
+        config_inner.pack(fill=tk.X)
+        
+        tk.Label(config_inner,
+                text="⚙️ Configuración",
+                font=("Segoe UI", 14, "bold"),
+                bg=self.bg_card, fg=self.text_dark).pack(anchor=tk.W, pady=(0, 15))
+        
+        input_frame = tk.Frame(config_inner, bg=self.bg_card)
+        input_frame.pack(fill=tk.X)
+        
+        # Selección de lenguaje
+        lang_frame = tk.Frame(input_frame, bg=self.bg_card)
+        lang_frame.pack(side=tk.LEFT, padx=(0, 30))
+        
+        tk.Label(lang_frame, text="Tipo de Lenguaje:",
+                font=("Segoe UI", 10, "bold"),
+                bg=self.bg_card, fg=self.text_dark).pack(anchor=tk.W, pady=(0, 5))
+        
+        self.tipo_lenguaje = ttk.Combobox(lang_frame,
+                                          values=["a^n b^n c^n", "Palíndromo", "a^n b^2n"],
+                                          state="readonly",
+                                          width=18,
+                                          style='Modern.TCombobox',
+                                          font=("Segoe UI", 11))
         self.tipo_lenguaje.set("a^n b^n c^n")
-        self.tipo_lenguaje.grid(row=0, column=1, sticky=tk.W, padx=(0, 30))
+        self.tipo_lenguaje.pack()
         
-        # Cadena de entrada
-        ttk.Label(entrada_frame, text="Cadena:").grid(row=0, column=2, sticky=tk.W, padx=(0, 10))
-        self.entrada_cadena = ttk.Entry(entrada_frame, width=30, font=("Consolas", 11))
+        # Entrada de cadena
+        string_frame = tk.Frame(input_frame, bg=self.bg_card)
+        string_frame.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        
+        tk.Label(string_frame, text="Cadena de Entrada:",
+                font=("Segoe UI", 10, "bold"),
+                bg=self.bg_card, fg=self.text_dark).pack(anchor=tk.W, pady=(0, 5))
+        
+        self.entrada_cadena = ttk.Entry(string_frame,
+                                        width=35,
+                                        font=("Consolas", 12))
         self.entrada_cadena.insert(0, "aabbcc")
-        self.entrada_cadena.grid(row=0, column=3, sticky=tk.W)
+        self.entrada_cadena.pack(fill=tk.X)
         self.entrada_cadena.bind('<Return>', lambda e: self.verificar_cadena())
         
-        # Botones
-        botones_frame = ttk.Frame(main_frame)
-        botones_frame.grid(row=3, column=0, columnspan=3, pady=(0, 15))
+        # Botones de acción con estilo moderno
+        buttons_frame = tk.Frame(content_frame, bg=self.bg_main)
+        buttons_frame.pack(pady=(0, 20))
         
-        ttk.Button(botones_frame, text="▶️ Verificar", 
-                  command=self.verificar_cadena, width=15).grid(row=0, column=0, padx=5)
-        ttk.Button(botones_frame, text="🗑️ Limpiar", 
-                  command=self.limpiar, width=15).grid(row=0, column=1, padx=5)
-        ttk.Button(botones_frame, text="📝 Ejemplos", 
-                  command=self.mostrar_ejemplos, width=15).grid(row=0, column=2, padx=5)
+        ttk.Button(buttons_frame, text="▶️  Verificar Cadena",
+                  command=self.verificar_cadena,
+                  style='Primary.TButton',
+                  width=20).pack(side=tk.LEFT, padx=8)
         
-        # Notebook
-        self.notebook = ttk.Notebook(main_frame)
-        self.notebook.grid(row=4, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        ttk.Button(buttons_frame, text="🔄  Limpiar",
+                  command=self.limpiar,
+                  width=18).pack(side=tk.LEFT, padx=8)
         
-        main_frame.rowconfigure(4, weight=1)
+        ttk.Button(buttons_frame, text="📚  Ver Ejemplos",
+                  command=self.mostrar_ejemplos,
+                  style='Accent.TButton',
+                  width=18).pack(side=tk.LEFT, padx=8)
         
-        # Pestañas
+        # Notebook con tabs mejorados
+        self.notebook = ttk.Notebook(content_frame)
+        self.notebook.pack(fill=tk.BOTH, expand=True)
+        
+        # Crear pestañas
         self.crear_pestanas()
     
     def crear_pestanas(self):
-        # Pestaña 1: Resultado
-        resultado_frame = ttk.Frame(self.notebook, padding="10")
-        self.notebook.add(resultado_frame, text="✅ Resultado")
+        # Pestaña 1: Resultado con indicador visual
+        resultado_frame = tk.Frame(self.notebook, bg=self.bg_card, padx=20, pady=20)
+        self.notebook.add(resultado_frame, text="  ✅ Resultado  ")
         
-        self.resultado_texto = scrolledtext.ScrolledText(resultado_frame, width=95, height=16,
-                                                         font=("Consolas", 10), wrap=tk.WORD)
+        self.resultado_texto = scrolledtext.ScrolledText(resultado_frame,
+                                                         width=110, height=20,
+                                                         font=("Consolas", 10),
+                                                         wrap=tk.WORD,
+                                                         bg="#FAFAFA",
+                                                         fg=self.text_dark,
+                                                         relief='flat',
+                                                         borderwidth=5,
+                                                         padx=10, pady=10)
         self.resultado_texto.pack(fill=tk.BOTH, expand=True)
         
-        # Pestaña 2: Traza
-        traza_frame = ttk.Frame(self.notebook, padding="10")
-        self.notebook.add(traza_frame, text="🔄 Traza de Ejecución")
+        # Pestaña 2: Traza con formato
+        traza_frame = tk.Frame(self.notebook, bg=self.bg_card, padx=20, pady=20)
+        self.notebook.add(traza_frame, text="  🔄 Traza  ")
         
-        self.traza_texto = scrolledtext.ScrolledText(traza_frame, width=95, height=16,
-                                                     font=("Consolas", 9), wrap=tk.NONE)
+        self.traza_texto = scrolledtext.ScrolledText(traza_frame,
+                                                     width=110, height=20,
+                                                     font=("Consolas", 9),
+                                                     wrap=tk.NONE,
+                                                     bg="#FAFAFA",
+                                                     fg=self.text_dark,
+                                                     relief='flat',
+                                                     borderwidth=5,
+                                                     padx=10, pady=10)
         self.traza_texto.pack(fill=tk.BOTH, expand=True)
         
-        # Pestaña 3: Tabla de Transiciones
-        tabla_frame = ttk.Frame(self.notebook, padding="10")
-        self.notebook.add(tabla_frame, text="📋 Tabla de Transiciones")
+        # Pestaña 3: Tabla de transiciones
+        tabla_frame = tk.Frame(self.notebook, bg=self.bg_card, padx=20, pady=20)
+        self.notebook.add(tabla_frame, text="  📋 Transiciones  ")
         
-        self.tabla_texto = scrolledtext.ScrolledText(tabla_frame, width=95, height=16,
-                                                     font=("Consolas", 9), wrap=tk.WORD)
+        self.tabla_texto = scrolledtext.ScrolledText(tabla_frame,
+                                                     width=110, height=20,
+                                                     font=("Consolas", 9),
+                                                     wrap=tk.WORD,
+                                                     bg="#FAFAFA",
+                                                     fg=self.text_dark,
+                                                     relief='flat',
+                                                     borderwidth=5,
+                                                     padx=10, pady=10)
         self.tabla_texto.pack(fill=tk.BOTH, expand=True)
         
-        # Pestaña 4: Teoría
-        teoria_frame = ttk.Frame(self.notebook, padding="10")
-        self.notebook.add(teoria_frame, text="📚 Teoría")
+        # Pestaña 4: Teoría con diseño mejorado
+        teoria_frame = tk.Frame(self.notebook, bg=self.bg_card, padx=20, pady=20)
+        self.notebook.add(teoria_frame, text="  📚 Teoría  ")
         
         self.mostrar_teoria(teoria_frame)
     
@@ -422,35 +555,70 @@ class InterfazMTLenguajes:
         self.mostrar_tabla_transiciones(tipo)
     
     def mostrar_resultado(self, cadena, tipo, aceptada, historial, lenguaje_desc):
-        """Muestra el resultado de la verificación"""
-        self.resultado_texto.insert(tk.END, "═" * 90 + "\n")
-        if aceptada:
-            self.resultado_texto.insert(tk.END, "  ✅ CADENA ACEPTADA\n")
-        else:
-            self.resultado_texto.insert(tk.END, "  ❌ CADENA RECHAZADA\n")
-        self.resultado_texto.insert(tk.END, "═" * 90 + "\n\n")
+        """Muestra el resultado de la verificación con colores"""
+        # Configurar tags de colores
+        self.resultado_texto.tag_config("header", foreground="#8B5CF6", font=("Consolas", 12, "bold"))
+        self.resultado_texto.tag_config("success", foreground="#10B981", font=("Consolas", 11, "bold"))
+        self.resultado_texto.tag_config("error", foreground="#EF4444", font=("Consolas", 11, "bold"))
+        self.resultado_texto.tag_config("info", foreground="#3B82F6", font=("Consolas", 10))
+        self.resultado_texto.tag_config("data", foreground="#64748B", font=("Consolas", 10))
         
-        self.resultado_texto.insert(tk.END, f"Lenguaje: {tipo}\n")
-        self.resultado_texto.insert(tk.END, f"Definición formal: {lenguaje_desc}\n\n")
-        
-        self.resultado_texto.insert(tk.END, f"Cadena de entrada: \"{cadena}\"\n")
-        if not cadena:
-            self.resultado_texto.insert(tk.END, "  (cadena vacía ε)\n")
-        self.resultado_texto.insert(tk.END, f"Longitud: {len(cadena)}\n\n")
-        
-        self.resultado_texto.insert(tk.END, f"Pasos ejecutados: {len(historial)}\n")
-        self.resultado_texto.insert(tk.END, f"Estado final: {self.maquina.estado_actual}\n\n")
+        # Encabezado con diseño
+        self.resultado_texto.insert(tk.END, "\n╔" + "═" * 88 + "╗\n")
         
         if aceptada:
-            self.resultado_texto.insert(tk.END, "✓ La cadena pertenece al lenguaje\n")
-            self.resultado_texto.insert(tk.END, "✓ Verificación exitosa\n")
+            self.resultado_texto.insert(tk.END, "║    ✅ CADENA ACEPTADA    ║\n", "success")
+            status_icon = "✓"
+            status_color = "success"
         else:
-            self.resultado_texto.insert(tk.END, "✗ La cadena NO pertenece al lenguaje\n")
-            self.resultado_texto.insert(tk.END, "✗ Verificación fallida\n")
+            self.resultado_texto.insert(tk.END, "║    ❌ CADENA RECHAZADA    ║\n", "error")
+            status_icon = "✗"
+            status_color = "error"
         
-        self.resultado_texto.insert(tk.END, "\n" + "─" * 90 + "\n")
+        self.resultado_texto.insert(tk.END, "╚" + "═" * 88 + "╝\n\n")
+        
+        # Información del lenguaje
+        self.resultado_texto.insert(tk.END, "📋 INFORMACIÓN DEL LENGUAJE\n", "header")
+        self.resultado_texto.insert(tk.END, "─" * 90 + "\n")
+        self.resultado_texto.insert(tk.END, f"  Tipo:       ", "info")
+        self.resultado_texto.insert(tk.END, f"{tipo}\n", "data")
+        self.resultado_texto.insert(tk.END, f"  Definición: ", "info")
+        self.resultado_texto.insert(tk.END, f"{lenguaje_desc}\n\n", "data")
+        
+        # Cadena procesada
+        self.resultado_texto.insert(tk.END, "🔤 CADENA PROCESADA\n", "header")
+        self.resultado_texto.insert(tk.END, "─" * 90 + "\n")
+        self.resultado_texto.insert(tk.END, f"  Entrada:  ", "info")
+        if cadena:
+            self.resultado_texto.insert(tk.END, f"'{cadena}'\n", "data")
+        else:
+            self.resultado_texto.insert(tk.END, "ε (cadena vacía)\n", "data")
+        self.resultado_texto.insert(tk.END, f"  Longitud: ", "info")
+        self.resultado_texto.insert(tk.END, f"{len(cadena)} símbolos\n\n", "data")
+        
+        # Estadísticas de ejecución
+        self.resultado_texto.insert(tk.END, "📊 ESTADÍSTICAS\n", "header")
+        self.resultado_texto.insert(tk.END, "─" * 90 + "\n")
+        self.resultado_texto.insert(tk.END, f"  Pasos ejecutados: ", "info")
+        self.resultado_texto.insert(tk.END, f"{len(historial)}\n", "data")
+        self.resultado_texto.insert(tk.END, f"  Estado final:     ", "info")
+        self.resultado_texto.insert(tk.END, f"{self.maquina.estado_actual}\n\n", "data")
+        
+        # Veredicto final
+        self.resultado_texto.insert(tk.END, "🏁 VEREDICTO\n", "header")
+        self.resultado_texto.insert(tk.END, "─" * 90 + "\n")
+        
+        if aceptada:
+            self.resultado_texto.insert(tk.END, f"  {status_icon} La cadena SÍ pertenece al lenguaje {tipo}\n", status_color)
+            self.resultado_texto.insert(tk.END, f"  {status_icon} Verificación EXITOSA - Máquina en estado de aceptación\n\n", status_color)
+        else:
+            self.resultado_texto.insert(tk.END, f"  {status_icon} La cadena NO pertenece al lenguaje {tipo}\n", status_color)
+            self.resultado_texto.insert(tk.END, f"  {status_icon} Verificación FALLIDA - Máquina en estado de rechazo\n\n", status_color)
+        
+        # Timestamp
+        self.resultado_texto.insert(tk.END, "─" * 90 + "\n")
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.resultado_texto.insert(tk.END, f"Fecha: {timestamp}\n")
+        self.resultado_texto.insert(tk.END, f"⏰ Procesado: {timestamp}\n", "data")
     
     def mostrar_traza(self, historial):
         """Muestra la traza de ejecución"""
